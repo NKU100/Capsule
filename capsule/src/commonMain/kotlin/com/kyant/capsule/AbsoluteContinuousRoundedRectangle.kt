@@ -1,7 +1,7 @@
 package com.kyant.capsule
 
-import androidx.annotation.FloatRange
-import androidx.annotation.IntRange
+
+
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.ZeroCornerSize
@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastCoerceIn
+
 import kotlin.math.min
 
 @Immutable
@@ -44,10 +44,10 @@ open class AbsoluteContinuousRoundedRectangle(
         }
 
         val maxRadius = min(size.width, size.height) * 0.5f
-        val topLeft = topStart.fastCoerceIn(0f, maxRadius)
-        val topRight = topEnd.fastCoerceIn(0f, maxRadius)
-        val bottomRight = bottomEnd.fastCoerceIn(0f, maxRadius)
-        val bottomLeft = bottomStart.fastCoerceIn(0f, maxRadius)
+        val topLeft = topStart.coerceIn(0f, maxRadius)
+        val topRight = topEnd.coerceIn(0f, maxRadius)
+        val bottomRight = bottomEnd.coerceIn(0f, maxRadius)
+        val bottomLeft = bottomStart.coerceIn(0f, maxRadius)
 
         return continuity.createRoundedRectangleOutline(
             size = size,
@@ -201,7 +201,7 @@ fun AbsoluteContinuousRoundedRectangle(
 
 @Stable
 fun AbsoluteContinuousRoundedRectangle(
-    @FloatRange(from = 0.0) size: Float,
+    size: Float,
     continuity: Continuity = Continuity.Default
 ): AbsoluteContinuousRoundedRectangle =
     AbsoluteContinuousRoundedRectangle(
@@ -211,7 +211,7 @@ fun AbsoluteContinuousRoundedRectangle(
 
 @Stable
 fun AbsoluteContinuousRoundedRectangle(
-    @IntRange(from = 0, to = 100) percent: Int,
+    percent: Int,
     continuity: Continuity = Continuity.Default
 ): AbsoluteContinuousRoundedRectangle =
     AbsoluteContinuousRoundedRectangle(
@@ -237,10 +237,10 @@ fun AbsoluteContinuousRoundedRectangle(
 
 @Stable
 fun AbsoluteContinuousRoundedRectangle(
-    @FloatRange(from = 0.0) topLeft: Float = 0f,
-    @FloatRange(from = 0.0) topRight: Float = 0f,
-    @FloatRange(from = 0.0) bottomRight: Float = 0f,
-    @FloatRange(from = 0.0) bottomLeft: Float = 0f,
+    topLeft: Float = 0f,
+    topRight: Float = 0f,
+    bottomRight: Float = 0f,
+    bottomLeft: Float = 0f,
     continuity: Continuity = Continuity.Default
 ): AbsoluteContinuousRoundedRectangle =
     AbsoluteContinuousRoundedRectangle(
@@ -253,10 +253,10 @@ fun AbsoluteContinuousRoundedRectangle(
 
 @Stable
 fun AbsoluteContinuousRoundedRectangle(
-    @IntRange(from = 0, to = 100) topLeftPercent: Int = 0,
-    @IntRange(from = 0, to = 100) topRightPercent: Int = 0,
-    @IntRange(from = 0, to = 100) bottomRightPercent: Int = 0,
-    @IntRange(from = 0, to = 100) bottomLeftPercent: Int = 0,
+    topLeftPercent: Int = 0,
+    topRightPercent: Int = 0,
+    bottomRightPercent: Int = 0,
+    bottomLeftPercent: Int = 0,
     continuity: Continuity = Continuity.Default
 ): AbsoluteContinuousRoundedRectangle =
     AbsoluteContinuousRoundedRectangle(

@@ -5,8 +5,8 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Density
-import androidx.compose.ui.util.fastCoerceAtLeast
-import androidx.compose.ui.util.lerp
+
+
 
 @Stable
 fun lerp(
@@ -68,10 +68,8 @@ private data class LerpCornerSize(
 ) : CornerSize {
 
     override fun toPx(shapeSize: Size, density: Density): Float {
-        return lerp(
-            start.toPx(shapeSize, density),
-            stop.toPx(shapeSize, density),
-            fraction
-        ).fastCoerceAtLeast(0f)
+        val a = start.toPx(shapeSize, density)
+        val b = stop.toPx(shapeSize, density)
+        return (a + (b - a) * fraction).coerceAtLeast(0f)
     }
 }

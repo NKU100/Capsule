@@ -1,15 +1,14 @@
 package com.kyant.capsule.path
 
-import android.graphics.RectF
-import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.asAndroidPath
 import com.kyant.capsule.core.Point
-import java.lang.Math.PI
+import kotlin.math.PI
+import kotlin.math.abs
+import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
+import kotlin.math.tan
 
-@Immutable
 sealed interface PathSegment {
 
     val from: Point
@@ -47,16 +46,7 @@ sealed interface PathSegment {
             )
 
         override fun drawTo(path: Path) {
-            path.asAndroidPath().arcTo(
-                RectF(
-                    (center.x - radius).toFloat(),
-                    (center.y - radius).toFloat(),
-                    (center.x + radius).toFloat(),
-                    (center.y + radius).toFloat()
-                ),
-                (startAngle * (180.0 / PI)).toFloat(),
-                (sweepAngle * (180.0 / PI)).toFloat()
-            )
+            arcToCubics(path, center, radius, startAngle, sweepAngle)
         }
     }
 
@@ -72,12 +62,8 @@ sealed interface PathSegment {
             get() = from
 
         override fun drawTo(path: Path) {
-            path.asAndroidPath().addCircle(
-                center.x.toFloat(),
-                center.y.toFloat(),
-                radius.toFloat(),
-                android.graphics.Path.Direction.CW
-            )
+            arcToCubics(path, center, radius, 0.0, PI)
+            arcToCubics(path, center, radius, PI, PI)
         }
     }
 
@@ -102,4 +88,53 @@ sealed interface PathSegment {
             )
         }
     }
+}
+
+/**
+ * Approximate a circular arc with cubic Bézier curves.
+ * Splits arcs > 90° into segments ≤ 90° each for accuracy.
+ */
+private fun arcToCubics(
+    path: Path,
+    center: Point,
+    radius: Double,
+    startAngle: Double,
+    sweepAngle: Double
+) {
+    if (sweepAngle == 0.0) return
+    val maxSegmentAngle = PI / 2.0
+    val numSegments = ceil(abs(sweepAngle) / maxSegmentAngle).toInt()
+    val segmentAngle = sweepAngle / numSegments
+    var angle = startAngle
+    for (i in 0 until numSegments) {
+        arcSegmentToCubic(path, center, radius, angle, segmentAngle)
+        angle += segmentAngle
+    }
+}
+
+/**
+ * Convert a single arc segment (≤ 90°) to a cubic Bézier.
+ * Uses the standard tangent-length formula: t = (4/3) * tan(angle/4)
+ */
+private fun arcSegmentToCubic(
+    path: Path,
+    center: Point,
+    radius: Double,
+    startAngle: Double,
+    sweepAngle: Double
+) {
+    val t = (4.0 / 3.0) * tan(sweepAngle / 4.0)
+    val cosStart = cos(startAngle)
+    val sinStart = sin(startAngle)
+    val cosEnd = cos(startAngle + sweepAngle)
+    val sinEnd = sin(startAngle + sweepAngle)
+
+    path.cubicTo(
+        (center.x + radius * (cosStart - t * sinStart)).toFloat(),
+        (center.y + radius * (sinStart + t * cosStart)).toFloat(),
+        (center.x + radius * (cosEnd + t * sinEnd)).toFloat(),
+        (center.y + radius * (sinEnd - t * cosEnd)).toFloat(),
+        (center.x + radius * cosEnd).toFloat(),
+        (center.y + radius * sinEnd).toFloat()
+    )
 }

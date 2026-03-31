@@ -6,7 +6,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.util.fastCoerceAtLeast
+
 
 @Stable
 fun ContinuousRoundedRectangle.concentricInset(padding: Dp): ContinuousRoundedRectangle {
@@ -60,6 +60,6 @@ private data class ConcentricCornerSize(
 
     override fun toPx(shapeSize: Size, density: Density): Float {
         return (containerCornerSize.toPx(shapeSize, density) - with(density) { padding.toPx() })
-            .fastCoerceAtLeast(0f)
+            .coerceAtLeast(0f)
     }
 }

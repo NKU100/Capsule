@@ -1,8 +1,8 @@
 package com.kyant.capsule.continuities
 
 import androidx.compose.runtime.Immutable
-import androidx.compose.ui.util.fastCoerceAtLeast
-import androidx.compose.ui.util.fastCoerceIn
+
+
 import com.kyant.capsule.AdvancedContinuity
 import com.kyant.capsule.Continuity
 import com.kyant.capsule.core.Point
@@ -45,14 +45,14 @@ data class G2Continuity(
 
         // non-capsule ratios of each half corner
         // 0: full capsule, 1: safe rounded rectangle, (0, 1): progressive capsule
-        val ratioTLV = ((centerY / topLeft - 1.0) / profile.extendedFraction).fastCoerceIn(0.0, 1.0)
-        val ratioTLH = ((centerX / topLeft - 1.0) / profile.extendedFraction).fastCoerceIn(0.0, 1.0)
-        val ratioTRH = ((centerX / topRight - 1.0) / profile.extendedFraction).fastCoerceIn(0.0, 1.0)
-        val ratioTRV = ((centerY / topRight - 1.0) / profile.extendedFraction).fastCoerceIn(0.0, 1.0)
-        val ratioBRV = ((centerY / bottomRight - 1.0) / profile.extendedFraction).fastCoerceIn(0.0, 1.0)
-        val ratioBRH = ((centerX / bottomRight - 1.0) / profile.extendedFraction).fastCoerceIn(0.0, 1.0)
-        val ratioBLH = ((centerX / bottomLeft - 1.0) / profile.extendedFraction).fastCoerceIn(0.0, 1.0)
-        val ratioBLV = ((centerY / bottomLeft - 1.0) / profile.extendedFraction).fastCoerceIn(0.0, 1.0)
+        val ratioTLV = ((centerY / topLeft - 1.0) / profile.extendedFraction).coerceIn(0.0, 1.0)
+        val ratioTLH = ((centerX / topLeft - 1.0) / profile.extendedFraction).coerceIn(0.0, 1.0)
+        val ratioTRH = ((centerX / topRight - 1.0) / profile.extendedFraction).coerceIn(0.0, 1.0)
+        val ratioTRV = ((centerY / topRight - 1.0) / profile.extendedFraction).coerceIn(0.0, 1.0)
+        val ratioBRV = ((centerY / bottomRight - 1.0) / profile.extendedFraction).coerceIn(0.0, 1.0)
+        val ratioBRH = ((centerX / bottomRight - 1.0) / profile.extendedFraction).coerceIn(0.0, 1.0)
+        val ratioBLH = ((centerX / bottomLeft - 1.0) / profile.extendedFraction).coerceIn(0.0, 1.0)
+        val ratioBLV = ((centerY / bottomLeft - 1.0) / profile.extendedFraction).coerceIn(0.0, 1.0)
 
         // constrained non-capsule ratios of each corner
         val ratioTL = min(ratioTLV, ratioTLH)
@@ -154,7 +154,7 @@ data class G2Continuity(
                     cubicTo(
                         x - p2.x * topLeft, y + p2.y * topLeft,
                         x - p1.x * topLeft, y + p1.y * topLeft,
-                        x - (p0.x * topLeft).fastCoerceAtLeast(offsetTLH), y + p0.y * topLeft
+                        x - (p0.x * topLeft).coerceAtLeast(offsetTLH), y + p0.y * topLeft
                     )
                 }
             }
@@ -191,7 +191,7 @@ data class G2Continuity(
                     cubicTo(
                         x - p2.y * topRight, y - p2.x * topRight,
                         x - p1.y * topRight, y - p1.x * topRight,
-                        x - p0.y * topRight, y - (p0.x * topRight).fastCoerceAtLeast(offsetTRV)
+                        x - p0.y * topRight, y - (p0.x * topRight).coerceAtLeast(offsetTRV)
                     )
                 }
             }
@@ -228,7 +228,7 @@ data class G2Continuity(
                     cubicTo(
                         x + p2.x * bottomRight, y - p2.y * bottomRight,
                         x + p1.x * bottomRight, y - p1.y * bottomRight,
-                        x + (p0.x * bottomRight).fastCoerceAtLeast(offsetBRH), y - p0.y * bottomRight
+                        x + (p0.x * bottomRight).coerceAtLeast(offsetBRH), y - p0.y * bottomRight
                     )
                 }
             }
@@ -265,7 +265,7 @@ data class G2Continuity(
                     cubicTo(
                         x + p2.y * bottomLeft, y + p2.x * bottomLeft,
                         x + p1.y * bottomLeft, y + p1.x * bottomLeft,
-                        x + p0.y * bottomLeft, y + (p0.x * bottomLeft).fastCoerceAtLeast(offsetBLV)
+                        x + p0.y * bottomLeft, y + (p0.x * bottomLeft).coerceAtLeast(offsetBLV)
                     )
                 }
             }
@@ -279,7 +279,7 @@ data class G2Continuity(
         val radius = height * 0.5
         val centerX = width * 0.5
 
-        val ratioH = ((centerX / radius - 1.0) / capsuleProfile.extendedFraction).fastCoerceIn(0.0, 1.0)
+        val ratioH = ((centerX / radius - 1.0) / capsuleProfile.extendedFraction).coerceIn(0.0, 1.0)
         val extFrac = capsuleProfile.extendedFraction
         val extFracH = extFrac * ratioH
         val offsetH = -radius * extFracH
@@ -319,7 +319,7 @@ data class G2Continuity(
                 cubicTo(
                     x - p2.x, y + p2.y,
                     x - p1.x, y + p1.y,
-                    x - p0.x.fastCoerceAtLeast(offsetH), y + p0.y
+                    x - p0.x.coerceAtLeast(offsetH), y + p0.y
                 )
             }
 
@@ -352,7 +352,7 @@ data class G2Continuity(
                 cubicTo(
                     x + p2.x, y - p2.y,
                     x + p1.x, y - p1.y,
-                    x + p0.x.fastCoerceAtLeast(offsetH), y - p0.y
+                    x + p0.x.coerceAtLeast(offsetH), y - p0.y
                 )
             }
 
@@ -376,7 +376,7 @@ data class G2Continuity(
         val radius = width * 0.5
         val centerY = height * 0.5
 
-        val ratioV = ((centerY / radius - 1.0) / capsuleProfile.extendedFraction).fastCoerceIn(0.0, 1.0)
+        val ratioV = ((centerY / radius - 1.0) / capsuleProfile.extendedFraction).coerceIn(0.0, 1.0)
         val extFrac = capsuleProfile.extendedFraction
         val extFracV = extFrac * ratioV
         val offsetV = -radius * extFracV
@@ -425,7 +425,7 @@ data class G2Continuity(
                 cubicTo(
                     x - p2.y, y - p2.x,
                     x - p1.y, y - p1.x,
-                    x - p0.y, y - p0.x.fastCoerceAtLeast(offsetV)
+                    x - p0.y, y - p0.x.coerceAtLeast(offsetV)
                 )
             }
 
@@ -458,7 +458,7 @@ data class G2Continuity(
                 cubicTo(
                     x + p2.y, y + p2.x,
                     x + p1.y, y + p1.x,
-                    x + p0.y, y + p0.x.fastCoerceAtLeast(offsetV)
+                    x + p0.y, y + p0.x.coerceAtLeast(offsetV)
                 )
             }
 
