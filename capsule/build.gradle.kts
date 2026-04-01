@@ -5,6 +5,9 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
+group = "com.kyant.capsule"
+version = "2.1.3-kmp"
+
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
 kotlin {
     androidLibrary {
