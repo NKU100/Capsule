@@ -1,11 +1,17 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
+    id("com.android.kotlin.multiplatform.library")
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.compose)
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
 kotlin {
+    androidLibrary {
+        namespace = "com.kyant.capsule"
+        compileSdk = 36
+        minSdk = 21
+    }
     jvm()
     wasmJs {
         browser()

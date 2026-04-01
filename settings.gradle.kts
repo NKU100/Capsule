@@ -20,4 +20,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Capsule"
-include(":capsule")
+include(":capsule", ":app")
