@@ -5,7 +5,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Density
-import androidx.compose.ui.util.fastCoerceAtLeast
+
 import androidx.compose.ui.util.lerp
 
 @Stable
@@ -72,6 +72,6 @@ private data class LerpCornerSize(
             start.toPx(shapeSize, density),
             stop.toPx(shapeSize, density),
             fraction
-        ).fastCoerceAtLeast(0f)
+        ).coerceAtLeast(0f)
     }
 }

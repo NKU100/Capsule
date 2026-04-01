@@ -1,8 +1,6 @@
 package com.kyant.capsule.continuities
 
-import androidx.annotation.FloatRange
 import androidx.compose.runtime.Immutable
-import androidx.compose.ui.util.fastCoerceAtLeast
 import com.kyant.capsule.core.CubicBezier
 import com.kyant.capsule.core.Point
 import com.kyant.capsule.lerp
@@ -13,10 +11,10 @@ import kotlin.math.sqrt
 
 @Immutable
 data class G2ContinuityProfile(
-    @param:FloatRange(from = 0.0) val extendedFraction: Double,
-    @param:FloatRange(from = 0.0, to = 1.0) val arcFraction: Double,
-    @param:FloatRange(from = 0.0) val bezierCurvatureScale: Double,
-    @param:FloatRange(from = 0.0, fromInclusive = false) val arcCurvatureScale: Double
+    val extendedFraction: Double,
+    val arcFraction: Double,
+    val bezierCurvatureScale: Double,
+    val arcCurvatureScale: Double
 ) {
 
     private var _bezier: CubicBezier? = null
@@ -107,12 +105,12 @@ private fun generateG2ContinuousBezierWithZeroStartCurvature(
 
     val p0 = start
     val p1 = start + Point(
-        (lambda0 * startTangent.x).fastCoerceAtLeast(0.0),
-        (lambda0 * startTangent.y).fastCoerceAtLeast(0.0)
+        (lambda0 * startTangent.x).coerceAtLeast(0.0),
+        (lambda0 * startTangent.y).coerceAtLeast(0.0)
     )
     val p2 = end - Point(
-        (lambda3 * endTangent.x).fastCoerceAtLeast(0.0),
-        (lambda3 * endTangent.y).fastCoerceAtLeast(0.0)
+        (lambda3 * endTangent.x).coerceAtLeast(0.0),
+        (lambda3 * endTangent.y).coerceAtLeast(0.0)
     )
     val p3 = end
 

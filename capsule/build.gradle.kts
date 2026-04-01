@@ -1,52 +1,41 @@
 plugins {
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.multiplatform)
+    id("com.android.kotlin.multiplatform.library")
+    alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.compose)
     id("com.vanniktech.maven.publish")
 }
 
-android {
-    namespace = "com.kyant.capsule"
-    compileSdk {
-        version = release(36)
-    }
-    buildToolsVersion = "36.1.0"
-
-    defaultConfig {
+@OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+kotlin {
+    androidLibrary {
+        namespace = "com.kyant.capsule"
+        compileSdk = 36
         minSdk = 21
-
-        consumerProguardFiles("consumer-rules.pro")
+    }
+    jvm()
+    wasmJs {
+        browser()
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+    sourceSets {
+        commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.ui)
         }
     }
-    buildFeatures {
-        compose = true
-    }
-}
-
-kotlin {
-    jvmToolchain(21)
-}
-
-dependencies {
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.foundation)
 }
 
 mavenPublishing {
     publishToMavenCentral()
     signAllPublications()
 
-    coordinates("io.github.kyant0", "capsule", "2.1.3")
+    coordinates("io.github.kyant0", "capsule", "2.2.0")
 
     pom {
         name.set("Capsule")
-        description.set("Jetpack Compose smooth corners")
+        description.set("Compose Multiplatform smooth corners")
         inceptionYear.set("2025")
         url.set("https://github.com/Kyant0/Capsule")
         licenses {

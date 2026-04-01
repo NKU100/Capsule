@@ -1,7 +1,5 @@
 package com.kyant.capsule
 
-import androidx.annotation.FloatRange
-import androidx.annotation.IntRange
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.ZeroCornerSize
@@ -14,7 +12,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.LayoutDirection.Ltr
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastCoerceIn
+
 import kotlin.math.min
 
 @Immutable
@@ -45,10 +43,10 @@ open class ContinuousRoundedRectangle(
         }
 
         val maxRadius = min(size.width, size.height) * 0.5f
-        val topLeft = (if (layoutDirection == Ltr) topStart else topEnd).fastCoerceIn(0f, maxRadius)
-        val topRight = (if (layoutDirection == Ltr) topEnd else topStart).fastCoerceIn(0f, maxRadius)
-        val bottomRight = (if (layoutDirection == Ltr) bottomEnd else bottomStart).fastCoerceIn(0f, maxRadius)
-        val bottomLeft = (if (layoutDirection == Ltr) bottomStart else bottomEnd).fastCoerceIn(0f, maxRadius)
+        val topLeft = (if (layoutDirection == Ltr) topStart else topEnd).coerceIn(0f, maxRadius)
+        val topRight = (if (layoutDirection == Ltr) topEnd else topStart).coerceIn(0f, maxRadius)
+        val bottomRight = (if (layoutDirection == Ltr) bottomEnd else bottomStart).coerceIn(0f, maxRadius)
+        val bottomLeft = (if (layoutDirection == Ltr) bottomStart else bottomEnd).coerceIn(0f, maxRadius)
 
         return continuity.createRoundedRectangleOutline(
             size = size,
@@ -202,7 +200,7 @@ fun ContinuousRoundedRectangle(
 
 @Stable
 fun ContinuousRoundedRectangle(
-    @FloatRange(from = 0.0) size: Float,
+size: Float,
     continuity: Continuity = Continuity.Default
 ): ContinuousRoundedRectangle =
     ContinuousRoundedRectangle(
@@ -212,7 +210,7 @@ fun ContinuousRoundedRectangle(
 
 @Stable
 fun ContinuousRoundedRectangle(
-    @IntRange(from = 0, to = 100) percent: Int,
+percent: Int,
     continuity: Continuity = Continuity.Default
 ): ContinuousRoundedRectangle =
     ContinuousRoundedRectangle(
@@ -238,10 +236,10 @@ fun ContinuousRoundedRectangle(
 
 @Stable
 fun ContinuousRoundedRectangle(
-    @FloatRange(from = 0.0) topStart: Float = 0f,
-    @FloatRange(from = 0.0) topEnd: Float = 0f,
-    @FloatRange(from = 0.0) bottomEnd: Float = 0f,
-    @FloatRange(from = 0.0) bottomStart: Float = 0f,
+topStart: Float = 0f,
+topEnd: Float = 0f,
+bottomEnd: Float = 0f,
+bottomStart: Float = 0f,
     continuity: Continuity = Continuity.Default
 ): ContinuousRoundedRectangle =
     ContinuousRoundedRectangle(
@@ -254,10 +252,10 @@ fun ContinuousRoundedRectangle(
 
 @Stable
 fun ContinuousRoundedRectangle(
-    @IntRange(from = 0, to = 100) topStartPercent: Int = 0,
-    @IntRange(from = 0, to = 100) topEndPercent: Int = 0,
-    @IntRange(from = 0, to = 100) bottomEndPercent: Int = 0,
-    @IntRange(from = 0, to = 100) bottomStartPercent: Int = 0,
+topStartPercent: Int = 0,
+topEndPercent: Int = 0,
+bottomEndPercent: Int = 0,
+bottomStartPercent: Int = 0,
     continuity: Continuity = Continuity.Default
 ): ContinuousRoundedRectangle =
     ContinuousRoundedRectangle(
