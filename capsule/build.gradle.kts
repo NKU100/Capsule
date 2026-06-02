@@ -12,7 +12,7 @@ version = "2.1.3-kmp"
 kotlin {
     androidLibrary {
         namespace = "com.kyant.capsule"
-        compileSdk = 36
+        compileSdk = 37
         minSdk = 21
     }
     jvm()
